@@ -40,13 +40,14 @@ public class Tabla_Usuario {
         dt.addColumn("NACIONALIDAD");
         dt.addColumn("TIPO USUARIO");
         dt.addColumn("UNIDAD");
+        dt.addColumn("DIAS");
         dt.addColumn("MODIFICAR");
         dt.addColumn("HABILITAR");
         
         JButton btn_modificar = new JButton("MODIFICAR");
         btn_modificar.setName("mod");
-        JButton btn_eliminar = new JButton("HABILITAR");
-        btn_eliminar.setName("hab");
+        JButton btn_habilitar = new JButton("HABILITAR");
+        btn_habilitar.setName("hab");
 
         crud_usu = new CRUDUSUARIO();
         Usuario usu = new Usuario();
@@ -54,7 +55,7 @@ public class Tabla_Usuario {
 
         if(list.size() > 0){
             for(int i=0; i<list.size(); i++){
-               Object fila[] = new Object[14];
+               Object fila[] = new Object[15];
                 usu = list.get(i);
                 fila[0] = usu.getRut();
                 fila[1] = usu.getPass();
@@ -65,15 +66,8 @@ public class Tabla_Usuario {
                 fila[6] = usu.getCorreo();
                 fila[7] = usu.getFono();
                 fila[8]=usu.getHabilitado();
-                
-              /*  String hab = ""+usu.getHabilitado();
-                if(hab.equals("1")){
-                    fila[8]="Si";
-                }else{
-                    fila[8]="No";
-                }
                 fila[9] = usu.getNacionalidad();
-                String tu  = ""+usu.getId_tipoUsuario();
+              //  String tu  = ""+usu.getId_tipoUsuario();
                 
               /*  if(tu.equals("1")){
                     fila[10]="Administrador";
@@ -88,11 +82,12 @@ public class Tabla_Usuario {
                 }else {
                     fila[10]="Sin asignar";
                 }*/
-                 fila[9] = usu.getNacionalidad();
+                fila[9] = usu.getNacionalidad();
                 fila[10]=usu.getId_tipoUsuario();
                 fila[11] = usu.getId_Unidad();
-                fila[12] = btn_modificar;
-                fila[13] = btn_eliminar;
+                fila[12] = usu.getDias();
+                fila[13] = btn_modificar; //cambiar numero
+                fila[14] = btn_habilitar; // cambiar numero
                 dt.addRow(fila);
             }
             tabla.setModel(dt);
