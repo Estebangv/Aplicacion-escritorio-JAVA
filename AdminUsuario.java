@@ -55,21 +55,21 @@ public class AdminUsuario extends javax.swing.JFrame {
     public void obtenerUsuarios() {
         DefaultTableModel modelo = new DefaultTableModel();
         ResultSet lista = Database.crearConsulta("SELECT * FROM USUARIO");
-        modelo.setColumnIdentifiers(new Object[]{"RUT", "CLAVE", "NOMBRE","PATERNO", "MATERNO","FECHA INGRESO", "MAIL","FONO", "HABILITADO", "NACIONALIDAD","TIPO USUARIO", "UNIDAD", "DIAS"});
+        modelo.setColumnIdentifiers(new Object[]{"RUT", "CLAVE", "NOMBRE", "PATERNO", "MATERNO", "FECHA INGRESO", "MAIL", "FONO", "HABILITADO", "NACIONALIDAD", "TIPO USUARIO", "UNIDAD", "DIAS"});
 
         try {
             while (lista.next()) {
-                modelo.addRow(new Object[]{lista.getString("rut"), lista.getString("clave"), lista.getString("nombre")
-             , lista.getString("a_paterno"), lista.getString("a_materno"),lista.getDate("fecha_ingreso")
-                ,lista.getString("mail"),lista.getString("fono"),lista.getInt("habilitado"),lista.getString("nacionalidad")
-            ,lista.getInt("id_tipousuario"),lista.getInt("id_unidad"), lista.getInt("dias")});
-                        }
+                modelo.addRow(new Object[]{lista.getString("rut"), lista.getString("clave"), lista.getString("nombre"),
+                     lista.getString("a_paterno"), lista.getString("a_materno"), lista.getDate("fecha_ingreso"),
+                     lista.getString("mail"), lista.getString("fono"), lista.getInt("habilitado"), lista.getString("nacionalidad"),
+                     lista.getInt("id_tipousuario"), lista.getInt("id_unidad"), lista.getInt("dias")});
+            }
             tab_Usuario.setModel(modelo);
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-    
+
     public void listarTipoUsuario() {
         ArrayList<String> list = new ArrayList<String>();
         Database cn = new Database();
@@ -82,7 +82,7 @@ public class AdminUsuario extends javax.swing.JFrame {
             while (lista.next()) {
                 list.add(lista.getString(1));
                 String n = lista.getString("nombre");
-                
+
                 jComboBox1.addItem(lista.getString(1));
 
             }
@@ -102,8 +102,7 @@ public class AdminUsuario extends javax.swing.JFrame {
         }
 
     }
-    
-    
+
     public int obtenerIdTipoUsuario(String nombreTipoUsuario) {
         ArrayList<String> list = new ArrayList<String>();
         int[] numTipoUsuario = new int[1];
@@ -121,7 +120,7 @@ public class AdminUsuario extends javax.swing.JFrame {
                 numTipoUsuario[0] = lista.getInt(1);
                 idTipo = numTipoUsuario[0];
                 list.add(lista.getString(1));
-            
+
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -138,7 +137,7 @@ public class AdminUsuario extends javax.swing.JFrame {
         System.out.println(idTipo);
         return idTipo;
     }
-    
+
     public int obtenerIdUnidad(String nombreUnidad) {
         ArrayList<String> list = new ArrayList<String>();
         int[] numUnidad = new int[1];
@@ -156,7 +155,7 @@ public class AdminUsuario extends javax.swing.JFrame {
                 numUnidad[0] = lista.getInt(1);
                 idUnidad = numUnidad[0];
                 list.add(lista.getString(1));
-               
+
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -173,7 +172,7 @@ public class AdminUsuario extends javax.swing.JFrame {
         System.out.println(idUnidad);
         return idUnidad;
     }
-    
+
     public void listarTipoUnidad() {
         ArrayList<String> list = new ArrayList<String>();
         Database cn = new Database();
@@ -187,7 +186,6 @@ public class AdminUsuario extends javax.swing.JFrame {
                 list.add(lista.getString(1));
                 String n = lista.getString("nombre");
                 jComboBox2.addItem(lista.getString(1));
-                
 
             }
         } catch (SQLException ex) {
@@ -206,13 +204,13 @@ public class AdminUsuario extends javax.swing.JFrame {
         }
 
     }
- 
+
     public void modificar() {
-      int errores = 0;
+        int errores = 0;
         if (txtRut.getText().equals("") || txtNombre.getText().equals("") || txtPass.getText().equals("")
-            || txtPaterno.getText().equals("") || txtUnidad.getText().equals("") || txtMaterno.getText().equals("") ||
-                txtNacionalidad.getText().equals("")|| txtTipoUsuario.getText().equals("")||txtHabilitado.getText().equals("")
-                || dtFecha.getDate().equals("")||txtCorreo.getText().equals("")|| txtFono.getText().equals("")) {
+                || txtPaterno.getText().equals("") || txtUnidad.getText().equals("") || txtMaterno.getText().equals("")
+                || txtNacionalidad.getText().equals("") || txtTipoUsuario.getText().equals("") || txtHabilitado.getText().equals("")
+                || dtFecha.getDate().equals("") || txtCorreo.getText().equals("") || txtFono.getText().equals("")) {
             errores = errores + 1;
         }
 
@@ -233,18 +231,15 @@ public class AdminUsuario extends javax.swing.JFrame {
             usu.setPaterno(txtPaterno.getText());
             usu.setNombre(txtNombre.getText());
             usu.setNacionalidad(txtNacionalidad.getText());
-            
-            
-            
-            
+            usu.setId_tipoUsuario(jComboBox1.getSelectedIndex()+1 );
+            usu.setId_Unidad(jComboBox2.getSelectedIndex()+1);
 
             crud_usu.Modificar_Usuario(usu);
         }
 
     }
-    
 
-    public void activa_boton( boolean a1, boolean a2, boolean a3, boolean a4) {
+    public void activa_boton(boolean a1, boolean a2, boolean a3, boolean a4) {
         btnModificar.setEnabled(a1);
         btnHabilitar.setEnabled(a2);
         txtRut.setEnabled(a3);
@@ -483,7 +478,7 @@ public class AdminUsuario extends javax.swing.JFrame {
                                 .addComponent(btnModificar)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnHabilitar)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 767, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 790, Short.MAX_VALUE)
                 .addComponent(lbl_rutRetail)
                 .addContainerGap())
         );
@@ -516,12 +511,12 @@ public class AdminUsuario extends javax.swing.JFrame {
                                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(txtUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel9)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel10)
                                     .addComponent(txtTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(60, 60, 60)
                                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(btn_limpiar)
@@ -585,27 +580,24 @@ public class AdminUsuario extends javax.swing.JFrame {
 
     private void tab_UsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab_UsuarioMouseClicked
         Clic_tabla = this.tab_Usuario.rowAtPoint(evt.getPoint());
-        //Date dateI = null;
-        //String fechaI;
-        //java.sql.Date sqlFechaIng = new java.sql.Date(dateI.getTime());
-        //dateI = dtFecha.getDate();
-                //dateT = dtFecha.getDate();
-
-               // fechaI = dateI.toString();
-         Date fechaIngreso =  (java.sql.Date)tab_Usuario.getValueAt(Clic_tabla, 5);
+      
+        Date fechaIngreso = (java.sql.Date) tab_Usuario.getValueAt(Clic_tabla, 5);
         String rut = "" + tab_Usuario.getValueAt(Clic_tabla, 0);
         String pass = "" + tab_Usuario.getValueAt(Clic_tabla, 1);
-        String nombre = ""+ tab_Usuario.getValueAt(Clic_tabla, 2);
-        String paterno = ""+ tab_Usuario.getValueAt(Clic_tabla, 3);
-        String materno = ""+ tab_Usuario.getValueAt(Clic_tabla, 4);
-       //Date fechaIngreso = "" + tab_Usuario.getValueAt(Clic_tabla, 5); NOOOO
-        String hab = ""+ tab_Usuario.getValueAt(Clic_tabla, 8);
-        String nacionalidad = ""+ tab_Usuario.getValueAt(Clic_tabla, 9);
-        String mail = ""+ tab_Usuario.getValueAt(Clic_tabla, 6);
-        String fono = ""+ tab_Usuario.getValueAt(Clic_tabla, 7);
-        String tipousuario = ""+ tab_Usuario.getValueAt(Clic_tabla, 10);
-        String unidad = ""+ tab_Usuario.getValueAt(Clic_tabla, 11);
-        
+        String nombre = "" + tab_Usuario.getValueAt(Clic_tabla, 2);
+        String paterno = "" + tab_Usuario.getValueAt(Clic_tabla, 3);
+        String materno = "" + tab_Usuario.getValueAt(Clic_tabla, 4);
+        //Date fechaIngreso = "" + tab_Usuario.getValueAt(Clic_tabla, 5); NOOOO
+        String hab = "" + tab_Usuario.getValueAt(Clic_tabla, 8);
+        String nacionalidad = "" + tab_Usuario.getValueAt(Clic_tabla, 9);
+        String mail = "" + tab_Usuario.getValueAt(Clic_tabla, 6);
+        String fono = "" + tab_Usuario.getValueAt(Clic_tabla, 7);
+        String tipousuario = "" + tab_Usuario.getValueAt(Clic_tabla, 10);
+        String unidad = "" + tab_Usuario.getValueAt(Clic_tabla, 11);
+       int unidad2 = (int)  tab_Usuario.getValueAt(Clic_tabla, 11);
+        int tipoUsuario2 = (int) tab_Usuario.getValueAt(Clic_tabla, 10);
+       //String unidad2 = ""+ tab_Usuario.getValueAt(Clic_tabla, 10);
+       //String tipoUsuario2 = ""+ tab_Usuario.getValueAt(Clic_tabla, 11);
 
         txtRut.setText(rut);
         txtPass.setText(pass);
@@ -617,10 +609,10 @@ public class AdminUsuario extends javax.swing.JFrame {
         txtNacionalidad.setText(nacionalidad);
         txtNombre.setText(nombre);
         txtCorreo.setText(mail);
-        txtUnidad.setText(tipousuario);
-        txtTipoUsuario.setText(unidad);
-        
-        
+        txtUnidad.setText(unidad);
+        txtTipoUsuario.setText(tipousuario);
+        jComboBox1.setSelectedIndex(tipoUsuario2-1);
+        jComboBox2.setSelectedIndex(unidad2-1);
 
         int column = tab_Usuario.getColumnModel().getColumnIndexAtX(evt.getX());
         int row = evt.getY() / tab_Usuario.getRowHeight();
@@ -634,13 +626,13 @@ public class AdminUsuario extends javax.swing.JFrame {
                 if (boton.getName().equals("mod")) {
                     System.out.println("Click en el boton modificar");
                     //EVENTOS MODIFICAR
-                    activa_boton( true, false, false, false);
+                    activa_boton(true, false, false, false);
                 }
                 if (boton.getName().equals("hab")) {
                     //JOptionPane.showConfirmDialog(null, "Desea eliminar este registro", "Confirmar", JOptionPane.OK_CANCEL_OPTION);
                     System.out.println("Click en el boton habilitar/bloquear");
                     //EVENTOS ELIMINAR
-                    activa_boton( false, true, false, false);
+                    activa_boton(false, true, false, false);
                 }
             }
 
@@ -666,7 +658,7 @@ public class AdminUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPassKeyTyped
 
     private void txtRutFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRutFocusLost
-      /*  int minimo = 7;
+        /*  int minimo = 7;
         if (txtRut.getText().length() > 0) {
             if (txtRut.getText().length() < minimo) {
                 txtRut.setForeground(Color.red);
@@ -680,7 +672,7 @@ public class AdminUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtRutFocusLost
 
     private void txtRutKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutKeyTyped
-      /*  int maximorut = 8;
+        /*  int maximorut = 8;
         int errores = 0;
         char validarCaracter = evt.getKeyChar();
         ArrayList<Character> lista = retornarListaCaracteres();
@@ -700,32 +692,33 @@ public class AdminUsuario extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         modificar();
         usu.visualizar_Usuario(tab_Usuario);
-        activa_boton( false, false, true, true);
+        activa_boton(false, false, true, true);
         lim.limpiar_texto(panel);
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnHabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabilitarActionPerformed
-
+int a = JOptionPane.showConfirmDialog(this, "Confirmar habilitación", "SI/NO", JOptionPane.YES_NO_OPTION);
+if(a==0){
         int itemSeleccionado = tab_Usuario.getSelectedColumn();
         if (itemSeleccionado <= 0) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario.", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             int fila = tab_Usuario.getSelectedRow();
             String rut = tab_Usuario.getValueAt(fila, 0).toString();
-            int habilitado = (int) tab_Usuario.getValueAt(fila, 8);  
+            int habilitado = (int) tab_Usuario.getValueAt(fila, 8);
             int habilitado2;
             System.out.println("valor id: " + rut + " valor de activo: " + habilitado);
 
-            if (habilitado==2) {
+   
+            if (habilitado == 2) {
                 habilitado2 = 1;
-                
                 JOptionPane.showMessageDialog(this, "Usuario activado");
             } else {
                 habilitado2 = 2;
                 JOptionPane.showMessageDialog(this, "Usuario bloqueado");
             }
 
-            System.out.println("NUEVOS -> valor id: " + rut+ " valor de activo: " + habilitado2);
+            System.out.println("NUEVOS -> valor id: " + rut + " valor de activo: " + habilitado2);
 
             Database cn = new Database();
             String sql = "UPDATE usuario SET habilitado = ? WHERE rut = ?";
@@ -748,12 +741,12 @@ public class AdminUsuario extends javax.swing.JFrame {
             }
             usu.visualizar_Usuario(tab_Usuario);
         }
-        
+}
     }//GEN-LAST:event_btnHabilitarActionPerformed
 
     private void btn_limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_limpiarActionPerformed
         lim.limpiar_texto(panel);
-        activa_boton( false, false, true, true);
+        activa_boton(false, false, true, true);
     }//GEN-LAST:event_btn_limpiarActionPerformed
 
     private void dtFechaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dtFechaFocusLost
